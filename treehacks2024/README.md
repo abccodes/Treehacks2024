@@ -20,3 +20,26 @@ Then:
 3. Paste your publishable key as `VITE_CLERK_PUBLISHABLE_KEY="<your publishable key>"` to the `.env.local` file in this directory.
 
 If you want to sync Clerk user data via webhooks, check out this [example repo](https://github.com/thomasballinger/convex-clerk-users-table/).
+
+# backend install
+
+```
+cd treehacks2024
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+# run server
+
+```
+cd treehacks2024
+source venv/bin/activate
+python server/app.py
+```
+
+# to exit venv
+
+```
+exit
+```
