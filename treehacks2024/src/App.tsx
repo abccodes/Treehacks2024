@@ -9,8 +9,6 @@ import {
 import { UploadButton, UploadFileResponse } from "@xixixao/uploadstuff/react";
 import "@xixixao/uploadstuff/react/styles.css";
 import { api } from "../convex/_generated/api";
-import Test from "./components/test.jsx";
-import React from "react";
 
 export default function App() {
   const generateUploadUrl = useMutation(api.files.generateUploadUrl);
