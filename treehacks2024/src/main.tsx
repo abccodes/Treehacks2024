@@ -13,7 +13,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <ErrorBoundary>
       <ClerkProvider
-        publishableKey={"pk_test_ZXZvbHZpbmctbGFiLTQ3LmNsZXJrLmFjY291bnRzLmRldiQ"}
+        publishableKey={
+          "pk_test_ZGlyZWN0LWxhbXByZXktNzMuY2xlcmsuYWNjb3VudHMuZGV2JA"
+        }
       >
         <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
           <App />

@@ -16,3 +16,4 @@ TODOs.md
 .eslintcache
 venv/
 *.h5
+.env
