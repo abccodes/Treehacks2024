@@ -43,8 +43,7 @@ function SignedIn() {
         <UserButton afterSignOutUrl="#" />
       </p>
       <p>
-        Click the button below and open this page in another window - this data
-        is persisted in the Convex cloud database!
+        hello test 1
       </p>
       <p>
         <Button
