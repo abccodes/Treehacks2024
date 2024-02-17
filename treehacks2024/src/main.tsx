@@ -17,8 +17,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       >
         <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
           <App />
-
-          
         </ConvexProviderWithClerk>
       </ClerkProvider>
     </ErrorBoundary>
