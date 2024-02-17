@@ -7,6 +7,7 @@ import {
   useQuery,
 } from "convex/react";
 import { api } from "../convex/_generated/api";
+import Test from "./components/test.jsx";
 
 export default function App() {
   return (
@@ -14,6 +15,7 @@ export default function App() {
       <h1 className="text-4xl font-extrabold my-8 text-center">
         Welcome to skin.ai
       </h1>
+      <Test></Test>
       <Authenticated>
         <SignedIn />
       </Authenticated>
