@@ -19,9 +19,9 @@ export default defineSchema({
     PhoneNumber: v.string(),
   }),
   Photos: defineTable({
-    Description: v.string(),
-    EntryID: v.id("Entries"),
-    PhotoDate: v.object({Date : v.string()}),
-    PhotoPath: v.string(),
+    Description: v.optional(v.string()),
+    EntryID: v.optional(v.id("Entries")),
+    PhotoDate: v.optional(v.object({Date : v.string()})),
+    storageId: v.id("_storage")
   }),
 });

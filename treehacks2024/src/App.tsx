@@ -6,36 +6,53 @@ import {
   useMutation,
   useQuery,
 } from "convex/react";
+import { UploadButton, UploadFileResponse } from "@xixixao/uploadstuff/react";
+import "@xixixao/uploadstuff/react/styles.css";
 import { api } from "../convex/_generated/api";
 import Test from "./components/test.jsx";
+import React from "react";
 
 export default function App() {
-  return (
-    <main className="container max-w-2xl flex flex-col gap-8">
-      <h1 className="text-4xl font-extrabold my-8 text-center">
-        Welcome to skin.ai
-      </h1>
-      <Test></Test>
-      <Authenticated>
-        <SignedIn />
-      </Authenticated>
-      <Unauthenticated>
-        <div className="flex justify-center">
-          <SignInButton mode="modal">
-            <Button>Sign in</Button>
-          </SignInButton>
-        </div>
-      </Unauthenticated>
-    </main>
-  );
-}
+  const generateUploadUrl = useMutation(api.files.generateUploadUrl);
+  const saveStorageId = useMutation(api.files.saveStorageId);
+  const saveAfterUpload = async (uploaded: UploadFileResponse[]) => {
+    await saveStorageId({ uploaded: {storageId: (uploaded[0].response as any).storageId }});
+  };
 
-function SignedIn() {
-  const { numbers, viewer } =
-    useQuery(api.myFunctions.listNumbers, {
-      count: 10,
-    }) ?? {};
-  const addNumber = useMutation(api.myFunctions.addNumber);
+    return (
+      <main className="container max-w-2xl flex flex-col gap-8">
+        <h1 className="text-4xl font-extrabold my-8 text-center">
+          Welcome to skin.ai
+        </h1>
+      <Authenticated>
+          <SignedIn />
+          <UploadButton
+            uploadUrl={generateUploadUrl}
+            fileTypes={[".pdf", "image/*"]}
+            onUploadComplete={saveAfterUpload}
+            onUploadError={(error: unknown) => {
+              // Do something with the error.
+              alert(`ERROR! ${error}`);
+            }}
+          />
+        </Authenticated>
+        <Unauthenticated>
+          <div className="flex justify-center">
+            <SignInButton mode="modal">
+              <Button>Sign in</Button>
+            </SignInButton>
+          </div>
+        </Unauthenticated>
+      </main>
+    );
+  }
+
+  function SignedIn() {
+    const { numbers, viewer } =
+      useQuery(api.myFunctions.listNumbers, {
+        count: 10,
+      }) ?? {};
+    const addNumber = useMutation(api.myFunctions.addNumber);
 
   return (
     <>
