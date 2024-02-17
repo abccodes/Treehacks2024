@@ -17,7 +17,7 @@ export const listNumbers = query({
     //// Read the database as many times as you need here.
     //// See https://docs.convex.dev/database/reading-data.
     const numbers = await ctx.db
-      .query("numbers")
+      .query("Patients")
       // Ordered by _creationTime, return most recent
       .order("desc")
       .take(args.count);
@@ -29,10 +29,13 @@ export const listNumbers = query({
 });
 
 // You can write data to the database via a mutation:
-export const addNumber = mutation({
+export const addPatient = mutation({
   // Validators for arguments.
   args: {
-    value: v.number(),
+    Birthday: v.object({Date : v.string()}),
+    FirstName: v.string(),
+    LastName: v.string(),
+    PhoneNumber: v.string(),
   },
 
   // Mutation implementation.
@@ -41,7 +44,7 @@ export const addNumber = mutation({
     //// Mutations can also read from the database like queries.
     //// See https://docs.convex.dev/database/writing-data.
 
-    const id = await ctx.db.insert("numbers", { value: args.value });
+    const id = await ctx.db.insert("Patients", args);
 
     console.log("Added new document with id:", id);
     // Optionally, return a value from your mutation.
