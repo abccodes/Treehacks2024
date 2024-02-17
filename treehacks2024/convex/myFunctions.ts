@@ -6,26 +6,28 @@ import { api } from "./_generated/api";
 // See https://docs.convex.dev/functions for more.
 
 // You can read data from the database via a query:
-export const listNumbers = query({
+export const readJournalEntries = query({
   // Validators for arguments.
   args: {
-    count: v.number(),
+    ConditionID: v.id("Conditions"),
+    DateLogged: v.object({Date : v.string()}),
+    Notes: v.string(),
+    PatientID: v.id("Patients"),
   },
 
   // Query implementation.
   handler: async (ctx, args) => {
-    //// Read the database as many times as you need here.
-    //// See https://docs.convex.dev/database/reading-data.
-    const numbers = await ctx.db
-      .query("Patients")
-      // Ordered by _creationTime, return most recent
-      .order("desc")
-      .take(args.count);
-    return {
-      viewer: (await ctx.auth.getUserIdentity())?.name,
-      numbers: numbers.toReversed().map((number) => number.value),
-    };
-  },
+  const entries = await ctx.db
+    .query("Entries")
+    .filter((q) => q.eq(q.field("PatientID"), args.PatientID))
+    .order("desc") // Order by _creationTime, return most recent
+    .collect();
+
+  return {
+    viewer: (await ctx.auth.getUserIdentity())?.name,
+    entries: entries.toReversed().map((entry) => entry.Notes),
+  };
+},
 });
 
 // You can write data to the database via a mutation:
@@ -35,7 +37,7 @@ export const addPatient = mutation({
     Birthday: v.object({Date : v.string()}),
     FirstName: v.string(),
     LastName: v.string(),
-    PhoneNumber: v.string(),
+    PhysicianPhoneNumber: v.string(),
   },
 
   // Mutation implementation.
@@ -52,6 +54,42 @@ export const addPatient = mutation({
   },
 });
 
+// You can write data to the database via a mutation:
+export const addJournalEntry = mutation({
+  // Validators for arguments.
+  args: {
+    ConditionID: v.id("Conditions"),
+    DateLogged: v.object({Date : v.string()}),
+    Notes: v.string(),
+    PatientID: v.id("Patients"),
+  },
+
+  // Mutation implementation.
+  handler: async (ctx, args) => {
+    //// Insert or modify documents in the database here.
+    //// Mutations can also read from the database like queries.
+    //// See https://docs.convex.dev/database/writing-data.
+
+    const id = await ctx.db.insert("Entries", args);
+
+    console.log("Added new document with id:", id);
+    // Optionally, return a value from your mutation.
+    // return id;
+  },
+});
+
+/*
+COMMENTED OUT BECAUSE WE DO NOT SEND DATA TO THIRD PARTY APIS
+BUT DO NOT DELETE BECAUSE IT IS A GOOD EXAMPLE
+
+COMMENTED OUT BECAUSE WE DO NOT SEND DATA TO THIRD PARTY APIS
+BUT DO NOT DELETE BECAUSE IT IS A GOOD EXAMPLE
+
+COMMENTED OUT BECAUSE WE DO NOT SEND DATA TO THIRD PARTY APIS
+BUT DO NOT DELETE BECAUSE IT IS A GOOD EXAMPLE
+
+COMMENTED OUT BECAUSE WE DO NOT SEND DATA TO THIRD PARTY APIS
+BUT DO NOT DELETE BECAUSE IT IS A GOOD EXAMPLE
 // You can fetch data from and send data to third-party APIs via an action:
 export const myAction = action({
   // Validators for arguments.
@@ -79,3 +117,4 @@ export const myAction = action({
     });
   },
 });
+*/
