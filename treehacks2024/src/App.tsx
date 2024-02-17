@@ -10,6 +10,7 @@ import {
 import { UploadButton, UploadFileResponse } from "@xixixao/uploadstuff/react";
 import "@xixixao/uploadstuff/react/styles.css";
 import { api } from "../convex/_generated/api";
+import ShuffleHero from "./Shufflehero.jsx";
 
 export default function App() {
   console.log(useConvexAuth());
@@ -27,9 +28,6 @@ export default function App() {
       <Authenticated>
         <UserButton afterSignOutUrl="#" />
 
-        <h1 className="text-4xl font-extrabold my-8 text-center">
-          Welcome to skin.ai
-        </h1>
         <SignedIn />
         <UploadButton
           uploadUrl={generateUploadUrl}
@@ -42,6 +40,7 @@ export default function App() {
         />
       </Authenticated>
       <Unauthenticated>
+        <ShuffleHero />
         <div className="flex justify-center">
           <SignInButton mode="modal">
             <Button>Sign in</Button>
@@ -55,7 +54,6 @@ export default function App() {
 function SignedIn() {
   return (
     <>
-      {/* <p>Welcome {viewer}!</p> */}
       <p className="flex gap-4 items-center">
         This is you:
         <UserButton afterSignOutUrl="#" />
