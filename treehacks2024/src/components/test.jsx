@@ -2,23 +2,48 @@ import React, { useEffect, useState } from "react";
 
 const Test = () => {
   const [data, setData] = useState(null);
+  const [url, setUrl] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    // Replace "http://localhost:5000" with the actual base URL of your Flask app
-    fetch("http://127.0.0.1:5000/api/items")
+  useEffect(() => {}, []);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    fetch("http://127.0.0.1:5000/api/predict", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ url }),
+    })
       .then((response) => response.json())
       .then((data) => setData(data))
       .catch((error) => console.error("Error fetching data:", error));
-  }, []); // The empty array ensures this effect runs only once after the initial render
+  };
 
   return (
     <div>
+      <div style={{ display: "flex", gap: 4 }}>
+        <p>image: </p>
+        <input
+          type="text"
+          value={url}
+          onChange={(e) => setUrl(e.target.value)}
+          style={{ border: "1px solid gray" }}
+        />
+        <button style={{ border: "1px solid gray" }} onClick={handleSubmit}>
+          Submit
+        </button>
+      </div>
       {data ? (
-        data.map((item) => {
-          return <p>{item.title}</p>;
-        })
+        <>
+          <img src={url}></img>
+          <p>Predicted Result: {data.predicted_label}</p>
+        </>
+      ) : isLoading ? (
+        <p>Loading...</p>
       ) : (
-        <p>Loading data...</p>
+        <></>
       )}
     </div>
   );
