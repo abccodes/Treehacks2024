@@ -9,6 +9,7 @@ import {
 import { UploadButton, UploadFileResponse } from "@xixixao/uploadstuff/react";
 import "@xixixao/uploadstuff/react/styles.css";
 import { api } from "../convex/_generated/api";
+import ShuffleHero from "./Shufflehero.jsx"
 
 export default function App() {
   const generateUploadUrl = useMutation(api.files.generateUploadUrl);
@@ -19,9 +20,8 @@ export default function App() {
 
     return (
       <main className="container max-w-2xl flex flex-col gap-8">
-        <h1 className="text-4xl font-extrabold my-8 text-center">
-          Welcome to skin.ai
-        </h1>
+
+        <ShuffleHero />
       <Authenticated>
           <SignedIn />
           <UploadButton
@@ -46,36 +46,16 @@ export default function App() {
   }
 
   function SignedIn() {
-    const { numbers, viewer } =
-      useQuery(api.myFunctions.listNumbers, {
-        count: 10,
-      }) ?? {};
-    const addNumber = useMutation(api.myFunctions.addPatient);
 
   return (
     <>
-      <p>Welcome {viewer}!</p>
+      {/* <p>Welcome {viewer}!</p> */}
       <p className="flex gap-4 items-center">
         This is you:
         <UserButton afterSignOutUrl="#" />
       </p>
       <p>
         hello test 1
-      </p>
-      <p>
-        <Button
-          onClick={() => {
-            void addNumber({ value: Math.floor(Math.random() * 10) });
-          }}
-        >
-          Add a random number
-        </Button>
-      </p>
-      <p>
-        Numbers:{" "}
-        {numbers?.length === 0
-          ? "Click the button!"
-          : numbers?.join(", ") ?? "..."}
       </p>
       <p>
         Edit{" "}
@@ -93,13 +73,7 @@ export default function App() {
       </p>
       <p>
         Check out{" "}
-        <a
-          className="font-medium text-primary underline underline-offset-4"
-          target="_blank"
-          href="https://docs.convex.dev/home"
-        >
-          Convex docs
-        </a>
+
       </p>
     </>
   );
