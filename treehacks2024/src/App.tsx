@@ -9,8 +9,6 @@ import {
 import { UploadButton, UploadFileResponse } from "@xixixao/uploadstuff/react";
 import "@xixixao/uploadstuff/react/styles.css";
 import { api } from "../convex/_generated/api";
-import Test from "./components/test.jsx";
-import React from "react";
 
 export default function App() {
   const generateUploadUrl = useMutation(api.files.generateUploadUrl);
@@ -52,7 +50,7 @@ export default function App() {
       useQuery(api.myFunctions.listNumbers, {
         count: 10,
       }) ?? {};
-    const addNumber = useMutation(api.myFunctions.addNumber);
+    const addNumber = useMutation(api.myFunctions.addPatient);
 
   return (
     <>

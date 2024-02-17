@@ -16,7 +16,7 @@ export default defineSchema({
     Birthday: v.object({Date : v.string()}),
     FirstName: v.string(),
     LastName: v.string(),
-    PhoneNumber: v.string(),
+    PhysicianPhoneNumber: v.string(),
   }),
   Photos: defineTable({
     Description: v.optional(v.string()),
