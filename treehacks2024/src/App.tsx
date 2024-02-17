@@ -50,7 +50,7 @@ export default function App() {
       useQuery(api.myFunctions.listNumbers, {
         count: 10,
       }) ?? {};
-    const addNumber = useMutation(api.myFunctions.addNumber);
+    const addNumber = useMutation(api.myFunctions.addPatient);
 
     return (
       <>
