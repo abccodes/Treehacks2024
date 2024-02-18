@@ -1,5 +1,3 @@
-import { Button } from "@/components/ui/button";
-import { SignInButton } from "@clerk/clerk-react";
 import { Authenticated, Unauthenticated, useConvexAuth } from "convex/react";
 import ShuffleHero from "./Shufflehero.jsx";
 import Navbar from "./main/components/Navbar.tsx";
@@ -9,7 +7,6 @@ export default function App() {
   console.log(useConvexAuth());
 
   return (
-
     <main>
       <Navbar />
       <Authenticated>

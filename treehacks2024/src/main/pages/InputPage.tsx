@@ -41,18 +41,18 @@ const InputPage: React.FC = () => {
           alert(`ERROR! ${error}`);
         }}
       />{" "}
-      <div className="flex justify-center">
+      <div className="flex justify-center ">
         <Carousel
           plugins={[
             Autoplay({
               delay: 2000,
             }),
           ]}
-          className="w-full max-w-xs"
+          className="w-full max-w-lg overflow-hidden"
         >
           <CarouselContent>
             {Array.from({ length: 5 }).map((_, index) => (
-              <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/12">
+              <CarouselItem key={index} className="basis-1/3">
                 <div className="p-1">
                   <Card>
                     <CardContent className="flex aspect-square items-center justify-center p-6">
