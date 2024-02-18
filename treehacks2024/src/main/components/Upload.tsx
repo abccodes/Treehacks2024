@@ -15,8 +15,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import Loading from './LoadingScreen';
-
+import Loading from "./LoadingScreen";
 
 interface ContainerProps {
   // Define your component props here
@@ -32,6 +31,7 @@ export const ContainerWithUpload: React.FC<ContainerProps> = () => {
   const [uploadUrl, setUploadUrl] = useState(""); // for getting the URLs
 
   const [isLoading, setIsLoading] = useState(false);
+  const [showLoading, setShowLoading] = useState(false);
   let navigate = useNavigate();
 
   const addJournalEntry = useMutation(api.myFunctions.addJournalEntry);
@@ -53,9 +53,8 @@ export const ContainerWithUpload: React.FC<ContainerProps> = () => {
   };
 
   const saveAfterUpload = async (uploaded: UploadFileResponse[]) => {
-
     setIsLoading(true);
-
+    setTimeout(() => setShowLoading(true), 1500);
 
     // Generate a new upload URL for displaying
     // const newUploadUrl = await generateUploadUrl();
@@ -76,6 +75,7 @@ export const ContainerWithUpload: React.FC<ContainerProps> = () => {
       .then((data) => {
         setTimeout(() => {
           setIsLoading(false);
+          setShowLoading(false);
         }, 5000);
         navigate("/result", { state: { data } });
       })
@@ -96,28 +96,31 @@ export const ContainerWithUpload: React.FC<ContainerProps> = () => {
                 textAlign: "center",
               }}
             >
-              Upload Your Image Below!
+              {showLoading ? "Loading your image..." : "Upload Your Image Below!"}
             </h1>
           </CardTitle>
-          {isLoading ? <Loading /> : <></>}
-          <UploadDropzone
-            // Generate and set upload URL when button is used
-            uploadUrl={() =>
-              generateUploadUrl().then((url) => {
-                setUploadUrl(url);
-                return url;
-              })
-            }
-            fileTypes={{
-              "application/pdf": [".pdf"],
-              "image/*": [".png", ".gif", ".jpeg", ".jpg"],
-            }}
-            onUploadComplete={saveAfterUpload}
-            onUploadError={(error: unknown) => {
-              // Do something with the error.
-              alert(`ERROR! ${error}`);
-            }}
-          />
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <UploadDropzone
+              // Generate and set upload URL when button is used
+              uploadUrl={() =>
+                generateUploadUrl().then((url) => {
+                  setUploadUrl(url);
+                  return url;
+                })
+              }
+              fileTypes={{
+                "application/pdf": [".pdf"],
+                "image/*": [".png", ".gif", ".jpeg", ".jpg"],
+              }}
+              onUploadComplete={saveAfterUpload}
+              onUploadError={(error: unknown) => {
+                // Do something with the error.
+                alert(`ERROR! ${error}`);
+              }}
+            />
+          )}
         </CardHeader>
         <CardContent></CardContent>
         <CardFooter className="flex justify-between">
