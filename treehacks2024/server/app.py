@@ -81,8 +81,9 @@ def predict():
         prompt=prompt
     )['choices'][0]['text']
 
+    is_healthy = predicted_class in [0, 2, 5, 6]
 
-    return jsonify({'predicted_label': predicted_label, 'prompt_response': prompt_response, 'image_url': image_url})
+    return jsonify({'predicted_label': predicted_label, 'prompt_response': prompt_response, 'image_url': image_url, 'is_healthy': is_healthy})
 
 def download_and_preprocess_image(image_url, image_size=(224, 224)):
     response = requests.get(image_url)

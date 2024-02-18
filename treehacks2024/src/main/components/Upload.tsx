@@ -3,6 +3,7 @@ import { useMutation } from "convex/react";
 import { UploadDropzone, UploadFileResponse } from "@xixixao/uploadstuff/react";
 import "@xixixao/uploadstuff/react/styles.css";
 import { api } from "../../../convex/_generated/api";
+import { useNavigate } from "react-router-dom";
 
 import React, { useState } from "react";
 import {
@@ -24,7 +25,9 @@ export const ContainerWithUpload: React.FC<ContainerProps> = () => {
   const [dateLogged, setDateLogged] = React.useState({ Date: "" });
   const [notes, setNotes] = React.useState("");
   const [patientID, setPatientID] = React.useState<Id<"Patients"> | null>(null);
-const [storageID, setStorageID] = React.useState<Id<"_storage"> | null>(null);
+  const [storageID, setStorageID] = React.useState<Id<"_storage"> | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  let navigate = useNavigate();
 
   // // @dev
   // // ConditionID: v.id("Conditions"),
@@ -33,12 +36,11 @@ const [storageID, setStorageID] = React.useState<Id<"_storage"> | null>(null);
   // // PatientID: v.id("Patients"),
 
   async function handleUpload() {
-
     if (!patientID || !storageID) {
       console.error("PatientID or storageID is null");
       return;
     }
-    
+
     try {
       await addJournalEntry({
         DateLogged: dateLogged,
@@ -57,12 +59,26 @@ const [storageID, setStorageID] = React.useState<Id<"_storage"> | null>(null);
   const saveStorageId = useMutation(api.files.saveStorageId);
   const saveAfterUpload = async (uploaded: UploadFileResponse[]) => {
     // Generate a new upload URL for displaying
-    const newUploadUrl = await generateUploadUrl();
-    setUploadUrl(newUploadUrl);
-
+    // const newUploadUrl = await generateUploadUrl();
+    // setUploadUrl(newUploadUrl);
+    setIsLoading(true);
     await saveStorageId({
       uploaded: { storageId: (uploaded[0].response as any).storageId },
     });
+
+    fetch("http://127.0.0.1:5000/api/predict", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      // body: JSON.stringify({ url }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setIsLoading(false);
+        navigate("/result", { state: { data } });
+      })
+      .catch((error) => console.error("Error fetching data:", error));
   };
 
   return (
@@ -78,13 +94,9 @@ const [storageID, setStorageID] = React.useState<Id<"_storage"> | null>(null);
               }}
             >
               Upload Your Image Below!
-            </h1>{" "}
-            {uploadUrl && (
-              <p>
-                Upload URL: <a href={uploadUrl}>{uploadUrl}</a>
-              </p>
-            )}
+            </h1>
           </CardTitle>
+          {isLoading ? <h1>Loading...</h1> : <></>}
           <UploadDropzone
             // Generate and set upload URL when button is used
             uploadUrl={() =>
