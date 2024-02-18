@@ -21,7 +21,7 @@ const Container: React.FC<ContainerProps> = () => {
         <CardHeader>
           <CardTitle></CardTitle>
           <CardDescription>
-            Deploy your new project in one-click.
+            Upload thing here or replace whole card
           </CardDescription>
         </CardHeader>
         <CardContent></CardContent>
