@@ -52,7 +52,7 @@ const InputPage: React.FC = () => {
               delay: 2000,
             }),
           ]}
-          className="w-full max-w-lg overflow-hidden"
+          className="w-full overflow-hidden"
         >
           <CarouselContent>
             {Array.from({ length: 5 }).map((_, index) => (
