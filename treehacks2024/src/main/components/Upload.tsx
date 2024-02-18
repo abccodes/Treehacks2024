@@ -15,6 +15,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import Loading from './LoadingScreen';
+
 
 interface ContainerProps {
   // Define your component props here
@@ -51,6 +53,10 @@ export const ContainerWithUpload: React.FC<ContainerProps> = () => {
   };
 
   const saveAfterUpload = async (uploaded: UploadFileResponse[]) => {
+
+    setIsLoading(true);
+
+
     // Generate a new upload URL for displaying
     // const newUploadUrl = await generateUploadUrl();
     // setUploadUrl(newUploadUrl);
@@ -68,7 +74,9 @@ export const ContainerWithUpload: React.FC<ContainerProps> = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        setIsLoading(false);
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 5000);
         navigate("/result", { state: { data } });
       })
       .catch((error) => console.error("Error fetching data:", error));
@@ -91,7 +99,7 @@ export const ContainerWithUpload: React.FC<ContainerProps> = () => {
               Upload Your Image Below!
             </h1>
           </CardTitle>
-          {isLoading ? <h1>Loading...</h1> : <></>}
+          {isLoading ? <Loading /> : <></>}
           <UploadDropzone
             // Generate and set upload URL when button is used
             uploadUrl={() =>
