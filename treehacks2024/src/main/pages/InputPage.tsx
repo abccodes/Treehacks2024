@@ -12,7 +12,6 @@ import {
 import Autoplay from "embla-carousel-autoplay";
 
 const InputPage: React.FC = () => {
-
   return (
     <div>
       <div className="flex justify-center m-10">
