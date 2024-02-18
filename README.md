@@ -6,7 +6,7 @@ The utilization of the Skin Cancer MNIST: HAM10000 dataset enables our project t
 
 ------------------
 
-![Tech Diagram](https://github.com/abccodes/Treehacks2024/assets/79234681/b7d61612-b74e-4f56-9a54-860d6b0fabc5)
+![Tech Diagram ()](https://github.com/abccodes/Treehacks2024/assets/79234681/7425daf8-feb2-48ab-a621-b7f16aa495fe)
 
 ------------------
 
