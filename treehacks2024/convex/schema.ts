@@ -12,9 +12,6 @@ export default defineSchema({
     Notes: v.optional(v.string()),
     PatientID: v.optional(v.id("Patients")),
     storageId: v.id("_storage"),
-    DateLogged: v.object({ Date: v.string() }),
-    Notes: v.string(),
-    PatientID: v.id("Patients"),
   }),
   Patients: defineTable({
     Birthday: v.object({ Date: v.string() }),
