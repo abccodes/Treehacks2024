@@ -9,6 +9,7 @@ export default function App() {
   console.log(useConvexAuth());
 
   return (
+
     <main>
       <Navbar />
       <Authenticated>
@@ -16,11 +17,6 @@ export default function App() {
       </Authenticated>
       <Unauthenticated>
         <ShuffleHero />
-        <div className="flex justify-center">
-          <SignInButton mode="modal">
-            <Button>Sign in</Button>
-          </SignInButton>
-        </div>
       </Unauthenticated>
     </main>
   );
