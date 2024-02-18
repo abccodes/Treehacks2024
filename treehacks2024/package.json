@@ -48,6 +48,8 @@
     "cmdk": "^0.2.0",
     "convex": "^1.8.0",
     "date-fns": "^2.30.0",
+    "embla-carousel-autoplay": "^8.0.0-rc22",
+    "embla-carousel-react": "^8.0.0-rc22",
     "framer-motion": "^11.0.5",
     "npm": "^10.4.0",
     "react": "^18.2.0",

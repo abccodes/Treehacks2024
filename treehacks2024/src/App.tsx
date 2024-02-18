@@ -12,42 +12,21 @@ import "@xixixao/uploadstuff/react/styles.css";
 import { api } from "../convex/_generated/api";
 import Test from "./components/test";
 import ShuffleHero from "./Shufflehero.jsx";
+import Navbar from "./main/components/Navbar.tsx";
+import InputPage from "./main/pages/InputPage.tsx";
 
 export default function App() {
   console.log(useConvexAuth());
 
-  const generateUploadUrl = useMutation(api.files.generateUploadUrl);
-  const saveStorageId = useMutation(api.files.saveStorageId);
-  const saveAfterUpload = async (uploaded: UploadFileResponse[]) => {
-    await saveStorageId({
-      uploaded: { storageId: (uploaded[0].response as any).storageId },
-    });
-  };
-
   return (
-    <main className="container max-w-2xl flex flex-col gap-8">
+    <main>
       <Test></Test>
+      <Navbar />
       <Authenticated>
-        <UserButton afterSignOutUrl="#" />
-
-        <SignedIn />
-        <UploadButton
-          uploadUrl={generateUploadUrl}
-          fileTypes={[".pdf", "image/*"]}
-          onUploadComplete={saveAfterUpload}
-          onUploadError={(error: unknown) => {
-            // Do something with the error.
-            alert(`ERROR! ${error}`);
-          }}
-        />
+        <InputPage />
       </Authenticated>
       <Unauthenticated>
         <ShuffleHero />
-        <div className="flex justify-center">
-          <SignInButton mode="modal">
-            <Button>Sign in</Button>
-          </SignInButton>
-        </div>
       </Unauthenticated>
     </main>
   );
