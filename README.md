@@ -4,6 +4,7 @@
 This project focuses on the development of a full-stack machine learning project for the classification of skin cancer, leveraging the comprehensive Skin Cancer MNIST: HAM10000 dataset. The dataset, curated by Maderna in 2018, provides a diverse collection of dermatoscopic images crucial for training and testing our algorithms. It encompasses over 10,000 labeled images of skin lesions, categorized into seven different diagnostic categories, making it an invaluable resource for advancing research and development in the field of dermatology and automated diagnostic systems.
 
 The utilization of the Skin Cancer MNIST: HAM10000 dataset enables our project to approach the complexity of skin cancer diagnosis with a robust and varied dataset, essential for improving the accuracy and reliability of our classification model. Our methodology incorporates deep learning techniques to analyze and learn from the dermatoscopic images, aiming to provide a tool that supports dermatologists in the early detection and classification of skin cancers. For detailed information on the dataset and its composition, please refer to the original dataset made available by Maderna (2018) on Kaggle at Skin Cancer MNIST: HAM10000.
+
 ------------------
 
 ![Tech Diagram](https://github.com/abccodes/Treehacks2024/assets/79234681/b7d61612-b74e-4f56-9a54-860d6b0fabc5)
