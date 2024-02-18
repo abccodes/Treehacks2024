@@ -43,7 +43,7 @@ const Test = () => {
         <p>Loading...</p>
       ) : data ? (
         <>
-          <img src={url}></img>
+          <img src={data.image_url}></img>
           <p>Predicted Result: {data.predicted_label}</p>
           <p>{data.prompt_response}</p>
         </>

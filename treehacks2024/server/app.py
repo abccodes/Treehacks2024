@@ -10,6 +10,7 @@ from keras.preprocessing.image import img_to_array
 import numpy as np
 import predictionguard as pg
 import os
+import random
 
 
 app = Flask(__name__)
@@ -39,13 +40,20 @@ lesion_ID = [
 
 @app.route('/api/predict', methods=['POST'])
 def predict():
-    data = request.get_json()
-    # image_url = "https://i.ibb.co/wdLSW6G/ISIC-0024533.jpg" # nv
-    # image_url = "https://i.ibb.co/b2ByTMv/ISIC-0025030.jpg" # bkl
-    # image_url = "https://i.ibb.co/b1wVkWn/ISIC-0030932.jpg" # mel
-    # https://i.ibb.co/QjgXcLb/ISIC-0033254.jpg # vasc
-    image_url = data.get('url')
-    print(image_url)
+    # data = request.get_json()
+    # image_url = data.get('url')
+    images = [
+    'https://i.ibb.co/VpG4mfT/ISIC-0029075.jpg',
+    'https://i.ibb.co/RcqFMJj/ISIC-0029079.jpg',
+    'https://i.ibb.co/wpJyRYr/ISIC-0029082.jpg',
+    'https://i.ibb.co/h7jhJpj/ISIC-0029086.jpg',
+    'https://i.ibb.co/ZWg0n7r/ISIC-0029089.jpg',
+    'https://i.ibb.co/5FBtsH3/ISIC-0029094.jpg',
+    'https://i.ibb.co/wC0NR8R/ISIC-0029100.jpg',
+    'https://i.ibb.co/vHWtMg5/ISIC-0029107.jpg',
+    'https://i.ibb.co/wJyt7TS/ISIC-0029112.jpg',
+    'https://i.ibb.co/yfQ5tcK/ISIC-0029118.jpg']
+    image_url = random.choice(images)
 
     img_array = download_and_preprocess_image(image_url)
     prediction = model.predict(img_array)
@@ -74,7 +82,7 @@ def predict():
     )['choices'][0]['text']
 
 
-    return jsonify({'predicted_label': predicted_label, 'prompt_response': prompt_response})
+    return jsonify({'predicted_label': predicted_label, 'prompt_response': prompt_response, 'image_url': image_url})
 
 def download_and_preprocess_image(image_url, image_size=(224, 224)):
     response = requests.get(image_url)
