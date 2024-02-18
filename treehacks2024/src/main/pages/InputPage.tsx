@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Container from "../components/Upload.tsx";
 import { UploadButton, UploadFileResponse } from "@xixixao/uploadstuff/react";
 import {
@@ -21,9 +21,17 @@ import {
 import Autoplay from "embla-carousel-autoplay";
 
 const InputPage: React.FC = () => {
+
+  const [uploadUrl, setUploadUrl] = useState(''); // for getting the URLs
+
   const generateUploadUrl = useMutation(api.files.generateUploadUrl);
   const saveStorageId = useMutation(api.files.saveStorageId);
   const saveAfterUpload = async (uploaded: UploadFileResponse[]) => {
+
+    // Generate a new upload URL for displaying
+    const newUploadUrl = await generateUploadUrl();
+    setUploadUrl(newUploadUrl);
+
     await saveStorageId({
       uploaded: { storageId: (uploaded[0].response as any).storageId },
     });
@@ -34,8 +42,18 @@ const InputPage: React.FC = () => {
       <div className="flex justify-center m-10">
         <div className="flex-column">
           <Container />
+
+          // Display the upload URL if it exists
+          {uploadUrl && (
+          <p>Upload URL: <a href={uploadUrl}>{uploadUrl}</a></p>
+        )}
+
           <UploadButton
-            uploadUrl={generateUploadUrl}
+
+            // Generate and set upload URL when button is used
+            uploadUrl={() => generateUploadUrl().then(url => { setUploadUrl(url); return url; })}
+
+            
             fileTypes={[".pdf", "image/*"]}
             onUploadComplete={saveAfterUpload}
             onUploadError={(error: unknown) => {
