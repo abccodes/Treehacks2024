@@ -9,6 +9,7 @@ const Test = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsLoading(true);
     fetch("http://127.0.0.1:5000/api/predict", {
       method: "POST",
       headers: {
@@ -17,7 +18,10 @@ const Test = () => {
       body: JSON.stringify({ url }),
     })
       .then((response) => response.json())
-      .then((data) => setData(data))
+      .then((data) => {
+        setData(data);
+        setIsLoading(false);
+      })
       .catch((error) => console.error("Error fetching data:", error));
   };
 
@@ -35,13 +39,14 @@ const Test = () => {
           Submit
         </button>
       </div>
-      {data ? (
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : data ? (
         <>
           <img src={url}></img>
           <p>Predicted Result: {data.predicted_label}</p>
+          <p>{data.prompt_response}</p>
         </>
-      ) : isLoading ? (
-        <p>Loading...</p>
       ) : (
         <></>
       )}
