@@ -22,6 +22,7 @@ export const generateUploadUrl = mutation({
 export const saveStorageId = mutation({
   // You can customize these as you like
   args: {
+    PatientID: v.string(),
     uploaded: v.object({
       storageId: v.id("_storage"),
     }),
@@ -33,9 +34,8 @@ export const saveStorageId = mutation({
 
     // Save the storageId to the database using `insert`
     ctx.db.insert("Entries", {
+      PatientID: args.PatientID,
       storageId: args.uploaded.storageId,
-
-      // ...
     });
   },
 });

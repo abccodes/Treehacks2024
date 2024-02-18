@@ -5,6 +5,25 @@ import { api } from "./_generated/api";
 // Write your Convex functions in any file inside this directory (`convex`).
 // See https://docs.convex.dev/functions for more.
 
+export const getEntries = query({
+  // Validators for arguments.
+  args: {
+    // ConditionID: v.id("Conditions"),
+    // DateLogged: v.object({ Date: v.string() }),
+    // Notes: v.string(),
+    PatientID: v.string(),
+  },
+  // Query implementation.
+  handler: async (ctx, args) => {
+    const entrySelection = await ctx.db
+      .query("Entries")
+      .filter((q) => q.eq(q.field("PatientID"), args.PatientID))
+      .collect();
+
+    return entrySelection;
+  },
+});
+
 // You can read data from the database via a query:
 export const readJournalEntries = query({
   // Validators for arguments.
@@ -61,6 +80,7 @@ export const addJournalEntry = mutation({
     PatientID: v.string(),
     Notes: v.string(),
     storageId: v.optional(v.id("_storage")),
+    imageURL: v.optional(v.string()),
   },
 
   // Mutation implementation.
@@ -72,8 +92,10 @@ export const addJournalEntry = mutation({
 
     if (user) {
       const id = await ctx.db.insert("Entries", {
+        PatientID: args.PatientID,
         Notes: args.Notes,
         storageId: args.storageId,
+        imageURL: args.imageURL,
       });
 
       console.log("Added new document with id:", id);
@@ -87,10 +109,10 @@ export const addJournalEntry = mutation({
 
       if (patientSelection) {
         if (patientSelection.Entries) {
-          patientSelection.Entries.push(args.PatientID);
+          patientSelection.Entries.push(id);
           ctx.db.replace(patientSelection._id, patientSelection);
         } else {
-          patientSelection.Entries = [args.PatientID];
+          patientSelection.Entries = [id];
         }
       }
     }

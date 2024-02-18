@@ -7,8 +7,10 @@ export default defineSchema({
     Name: v.string(),
   }),
   Entries: defineTable({
+    PatientID: v.string(),
     Notes: v.optional(v.string()),
     storageId: v.optional(v.id("_storage")),
+    imageURL: v.optional(v.string()),
   }),
   Patients: defineTable({
     FirstName: v.string(),
