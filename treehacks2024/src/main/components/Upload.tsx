@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Loading from "./LoadingScreen";
+import styles from "./Upload.module.css";
 
 interface ContainerProps {
   // Define your component props here
@@ -94,9 +95,14 @@ export const ContainerWithUpload: React.FC<ContainerProps> = () => {
                 fontSize: "2em",
                 fontFamily: "Arial",
                 textAlign: "center",
+                animation: showLoading
+                  ? `${styles.fadeInOut} 2s infinite`
+                  : "none",
               }}
             >
-              {showLoading ? "Loading your image..." : "Upload Your Image Below!"}
+              {showLoading
+                ? "Analyzing Your Image with AI! Please Wait..."
+                : "Upload Your Image Below! Our AI model takes care of the rest!"}
             </h1>
           </CardTitle>
           {isLoading ? (
