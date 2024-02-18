@@ -1,5 +1,5 @@
 import React from "react";
-import Container from "../components/Containter.tsx";
+import Container from "../components/Upload.tsx";
 import { UploadButton, UploadFileResponse } from "@xixixao/uploadstuff/react";
 import {
   //   Authenticated,
@@ -31,16 +31,20 @@ const InputPage: React.FC = () => {
 
   return (
     <div>
-      <Container />
-      <UploadButton
-        uploadUrl={generateUploadUrl}
-        fileTypes={[".pdf", "image/*"]}
-        onUploadComplete={saveAfterUpload}
-        onUploadError={(error: unknown) => {
-          // Do something with the error.
-          alert(`ERROR! ${error}`);
-        }}
-      />{" "}
+      <div className="flex justify-center m-10">
+        <div className="flex-column">
+          <Container />
+          <UploadButton
+            uploadUrl={generateUploadUrl}
+            fileTypes={[".pdf", "image/*"]}
+            onUploadComplete={saveAfterUpload}
+            onUploadError={(error: unknown) => {
+              // Do something with the error.
+              alert(`ERROR! ${error}`);
+            }}
+          />{" "}
+        </div>
+      </div>
       <div className="flex justify-center ">
         <Carousel
           plugins={[
