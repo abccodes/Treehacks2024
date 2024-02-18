@@ -34,9 +34,7 @@ If you want to sync Clerk user data via webhooks, check out this [example repo](
 
 ============================================================================
 
-# Server -> Classifier and Prediction Guard Intel LLM
-
-# how to backend install
+# Setup Server: Classifier and Prediction Guard Intel LLM
 
 ```
 cd treehacks2024
