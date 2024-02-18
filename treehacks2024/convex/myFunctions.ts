@@ -9,7 +9,7 @@ import { api } from "./_generated/api";
 export const readJournalEntries = query({
   // Validators for arguments.
   args: {
-    ConditionID: v.id("Conditions"),
+    // ConditionID: v.id("Conditions"),
     DateLogged: v.object({ Date: v.string() }),
     Notes: v.string(),
     PatientID: v.id("Patients"),
@@ -37,7 +37,7 @@ export const addPatient = mutation({
     Birthday: v.object({ Date: v.string() }),
     FirstName: v.string(),
     LastName: v.string(),
-    PhysicianPhoneNumber: v.string(),
+    // PhysicianPhoneNumber: v.string(),
   },
 
   // Mutation implementation.
@@ -58,10 +58,11 @@ export const addPatient = mutation({
 export const addJournalEntry = mutation({
   // Validators for arguments.
   args: {
-    ConditionID: v.id("Conditions"),
+    // ConditionID: v.id("Conditions"),
     DateLogged: v.object({ Date: v.string() }),
     Notes: v.string(),
     PatientID: v.id("Patients"),
+    storageId: v.id("_storage"),
   },
 
   // Mutation implementation.
