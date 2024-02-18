@@ -10,6 +10,15 @@ import {
 } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import "@xixixao/uploadstuff/react/styles.css";
+import { Card, CardContent } from "@/components/ui/card";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
 
 const InputPage: React.FC = () => {
   const generateUploadUrl = useMutation(api.files.generateUploadUrl);
@@ -32,6 +41,34 @@ const InputPage: React.FC = () => {
           alert(`ERROR! ${error}`);
         }}
       />{" "}
+      <div className="flex justify-center">
+        <Carousel
+          plugins={[
+            Autoplay({
+              delay: 2000,
+            }),
+          ]}
+          className="w-full max-w-xs"
+        >
+          <CarouselContent>
+            {Array.from({ length: 5 }).map((_, index) => (
+              <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/12">
+                <div className="p-1">
+                  <Card>
+                    <CardContent className="flex aspect-square items-center justify-center p-6">
+                      <span className="text-4xl font-semibold">
+                        {index + 1}
+                      </span>
+                    </CardContent>
+                  </Card>
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
+      </div>
     </div>
   );
 };
