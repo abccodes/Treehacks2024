@@ -11,12 +11,24 @@ import numpy as np
 import predictionguard as pg
 import os
 import random
+from dotenv import load_dotenv
+from infobip_api_client.api_client import ApiClient, Configuration
+import http.client
+import json
+    
+load_dotenv('.env.local')
 
 
 app = Flask(__name__)
 CORS(app)
 os.environ['PREDICTIONGUARD_TOKEN'] = "q1VuOjnffJ3NO2oFN8Q9m8vghYc84ld13jaqdF7E"
 model = load_model('server/models/skin_v2.h5')
+infobip_client_config = Configuration(
+    host=os.getenv("INFOBIP_BASE_URL"),
+    api_key={"APIKeyHeader": os.getenv("INFOBIP_API_KEY")},
+    api_key_prefix={"APIKeyHeader": os.getenv("INFOBIP_API_PREFIX")},
+)
+infobip_api_client = ApiClient(infobip_client_config)
 
 lesion_type_dict = {
     'nv': 'Melanocytic nevi',
@@ -82,6 +94,45 @@ def predict():
     )['choices'][0]['text']
 
     is_healthy = predicted_class in [0, 2, 5, 6]
+
+    if not is_healthy:
+        sms_prompt = """### System:
+        You are a SMS agent.
+        Write an SMS message to inform a physician whose patient got identified a skin symptom with potential cancerous characteristics on our app Skin.ai.
+        You will receive a input about the skin disease name of the patient. Share that information to the physician
+        Keep the message clean and concise. No number list or bullet points, 3 complete sentenses only.
+        Start with this and complete the paragraph: Hi, your patient {name} might have...
+
+        ### User:
+        A person was using a skin disease classifier, and it says he or she may have {disease}. Tell this to his or her physician.
+
+        ### Respond:
+        """.format(name="John Doe", disease=predicted_label)
+
+        sms_message_prompt_response = pg.Completion.create(
+        model="Neural-Chat-7B",
+        prompt=sms_prompt
+        )['choices'][0]['text']
+
+        conn = http.client.HTTPSConnection("l3vqgj.api.infobip.com")
+        payload = json.dumps({
+            "messages": [
+                {
+                    "destinations": [{"to":"19174368930"}],
+                    "from": "Skin.ai",
+                    "text": sms_message_prompt_response
+                }
+            ]
+        })
+        headers = {
+            'Authorization': f"{os.getenv('INFOBIP_API_PREFIX')} {os.getenv('INFOBIP_API_KEY')}",
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+        conn.request("POST", "/sms/2/text/advanced", payload, headers)
+        res = conn.getresponse()
+        data = res.read()
+        print(data.decode("utf-8"))
 
     return jsonify({'predicted_label': predicted_label, 'prompt_response': prompt_response, 'image_url': image_url, 'is_healthy': is_healthy})
 
