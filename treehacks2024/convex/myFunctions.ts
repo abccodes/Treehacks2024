@@ -10,31 +10,31 @@ export const readJournalEntries = query({
   // Validators for arguments.
   args: {
     ConditionID: v.id("Conditions"),
-    DateLogged: v.object({Date : v.string()}),
+    DateLogged: v.object({ Date: v.string() }),
     Notes: v.string(),
     PatientID: v.id("Patients"),
   },
 
   // Query implementation.
   handler: async (ctx, args) => {
-  const entries = await ctx.db
-    .query("Entries")
-    .filter((q) => q.eq(q.field("PatientID"), args.PatientID))
-    .order("desc") // Order by _creationTime, return most recent
-    .collect();
+    const entries = await ctx.db
+      .query("Entries")
+      .filter((q) => q.eq(q.field("PatientID"), args.PatientID))
+      .order("desc") // Order by _creationTime, return most recent
+      .collect();
 
-  return {
-    viewer: (await ctx.auth.getUserIdentity())?.name,
-    entries: entries.toReversed().map((entry) => entry.Notes),
-  };
-},
+    return {
+      viewer: (await ctx.auth.getUserIdentity())?.name,
+      entries: entries.toReversed().map((entry) => entry.Notes),
+    };
+  },
 });
 
 // You can write data to the database via a mutation:
 export const addPatient = mutation({
   // Validators for arguments.
   args: {
-    Birthday: v.object({Date : v.string()}),
+    Birthday: v.object({ Date: v.string() }),
     FirstName: v.string(),
     LastName: v.string(),
     PhysicianPhoneNumber: v.string(),
@@ -59,7 +59,7 @@ export const addJournalEntry = mutation({
   // Validators for arguments.
   args: {
     ConditionID: v.id("Conditions"),
-    DateLogged: v.object({Date : v.string()}),
+    DateLogged: v.object({ Date: v.string() }),
     Notes: v.string(),
     PatientID: v.id("Patients"),
   },

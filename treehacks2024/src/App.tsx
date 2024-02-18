@@ -14,8 +14,8 @@ export default function App() {
       <Test></Test>
       <Navbar />
       <Authenticated>
-        <OutputPage />
-        {/* <InputPage /> */}
+        {/* <OutputPage /> */}
+        <InputPage />
       </Authenticated>
       <Unauthenticated>
         <ShuffleHero />
