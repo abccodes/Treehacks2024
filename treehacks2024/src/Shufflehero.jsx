@@ -11,10 +11,10 @@ const ShuffleHero = () => {
 
       <div>
         <span className="block mb-4 text-lg md:text-xl text-violet-500 font-large">
-          Making diagnosis easy
+          The World's First AI Dermatologist
         </span>
         <h3 className="text-4xl md:text-6xl font-semibold">
-          Skin.ai
+          DermaDetect
         </h3>
         <p className="text-base md:text-lg text-grey-700 my-4 md:my-6">
           Artificial intelligence meets dermatology. Get a medical consultation in minutes.
