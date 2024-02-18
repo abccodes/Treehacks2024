@@ -61,9 +61,9 @@ export const ContainerWithUpload: React.FC<ContainerProps> = () => {
     // const newUploadUrl = await generateUploadUrl();
     // setUploadUrl(newUploadUrl);
     setIsLoading(true);
-    await saveStorageId({
-      uploaded: { storageId: (uploaded[0].response as any).storageId },
-    });
+    // await saveStorageId({
+    //   uploaded: { storageId: (uploaded[0].response as any).storageId },
+    // });
 
     fetch("http://127.0.0.1:5000/api/predict", {
       method: "POST",
