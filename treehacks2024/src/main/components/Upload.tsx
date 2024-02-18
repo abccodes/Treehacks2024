@@ -26,6 +26,7 @@ export const ContainerWithUpload: React.FC<ContainerProps> = () => {
   const [notes, setNotes] = React.useState("");
   const [patientID, setPatientID] = React.useState<Id<"Patients"> | null>(null);
   const [storageID, setStorageID] = React.useState<Id<"_storage"> | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
   let navigate = useNavigate();
 
   // // @dev
@@ -58,13 +59,26 @@ export const ContainerWithUpload: React.FC<ContainerProps> = () => {
   const saveStorageId = useMutation(api.files.saveStorageId);
   const saveAfterUpload = async (uploaded: UploadFileResponse[]) => {
     // Generate a new upload URL for displaying
-    const newUploadUrl = await generateUploadUrl();
-    setUploadUrl(newUploadUrl);
-
+    // const newUploadUrl = await generateUploadUrl();
+    // setUploadUrl(newUploadUrl);
+    setIsLoading(true);
     await saveStorageId({
       uploaded: { storageId: (uploaded[0].response as any).storageId },
     });
-    navigate("/result", { state: { bla: "aad" } });
+
+    fetch("http://127.0.0.1:5000/api/predict", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      // body: JSON.stringify({ url }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setIsLoading(false);
+        navigate("/result", { state: { data } });
+      })
+      .catch((error) => console.error("Error fetching data:", error));
   };
 
   return (
@@ -80,13 +94,9 @@ export const ContainerWithUpload: React.FC<ContainerProps> = () => {
               }}
             >
               Upload Your Image Below!
-            </h1>{" "}
-            {uploadUrl && (
-              <p>
-                Upload URL: <a href={uploadUrl}>{uploadUrl}</a>
-              </p>
-            )}
+            </h1>
           </CardTitle>
+          {isLoading ? <h1>Loading...</h1> : <></>}
           <UploadDropzone
             // Generate and set upload URL when button is used
             uploadUrl={() =>
