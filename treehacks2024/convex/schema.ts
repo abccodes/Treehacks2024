@@ -7,16 +7,13 @@ export default defineSchema({
     Name: v.string(),
   }),
   Entries: defineTable({
-    // ConditionID: v.id("Conditions"),
-    DateLogged: v.optional(v.object({ Date: v.string() })),
     Notes: v.optional(v.string()),
-    PatientID: v.optional(v.id("Patients")),
-    storageId: v.id("_storage"),
+    storageId: v.optional(v.id("_storage")),
   }),
   Patients: defineTable({
-    Birthday: v.object({ Date: v.string() }),
     FirstName: v.string(),
     LastName: v.string(),
-    // PhysicianPhoneNumber: v.string(),
+    PhysicianPhoneNumber: v.string(),
+    Entries: v.optional(v.array(v.string())),
   }),
 });
