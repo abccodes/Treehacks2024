@@ -15,7 +15,9 @@ The utilization of the Skin Cancer MNIST: HAM10000 dataset enables our project t
 
 ------------------
 
+
 ============================================================================
+
 
 # Convex + TypeScript + ESLint + Vite + React + Clerk + Tailwind + shadcn/ui
 
@@ -89,7 +91,7 @@ Journal entry logging: Using the Convex backend database schema allows users to 
 
 Seamless triaging: Direct connection to qualified healthcare providers eliminates unnecessary user anxiety and wait times for concerning cases.
 
-#How we built it
+# How we built it
 
 Machine learning model TensorFlow, Keras: Facilitated our model training and model architecture, Python, OpenCV, Prediction Guard LLM, Intel Developer Cloud, Pandas, NumPy, Sklearn, Matplotlib
 
@@ -98,11 +100,13 @@ Frontend TypeScript, Convex, React.js, Shadcn (Components), FramerMotion (Animat
 Backend TypeScript, Convex Database & File storage, Clerk (OAuth User login authentication), Python, Flask, Vite, InfoBip (Twillio-like service)
 
 # Challenges we ran into
+
 We had a lot of trouble cleaning and applying the HAM10000 skin images dataset. Due to long run times, we found it very challenging to make any progress on tuning our model and sorting the data. We eventually started splitting our dataset into smaller batches and training our model on a small amount of data before scaling up which worked around our problem. We also had a lot of trouble normalizing our data, and figuring out how to deal with a large Melanocytic nevi class imbalance. After much trial and error, we were able to correctly apply data augmentation and oversampling methods to address the class imbalance issue.
 
 One of our biggest challenges was setting up our backend Flask server. We encountered so many environment errors, and for a large portion of the time, the server was only able to run on one computer. After many Google searches, we persevered and resolved the errors.
 
 # Accomplishments that we're proud of
+
 We are incredibly proud of developing a working open-source, AI-powered application that democratizes access to skin cancer assessments.
 
 Tackling the technical challenges of cleaning and applying the HAM10000 skin images dataset, dealing with class imbalances, and normalizing data has been a journey of persistence and innovation.
@@ -114,11 +118,13 @@ Integrating many technologies that were new to a lot of the team such as Clerk f
 Extending beyond the technical domain, reflecting a deep dedication to inclusivity, education, and empowerment in healthcare.
 
 # What we learned
+
 Critical importance of data quality and management in AI-driven applications. The challenges we faced in cleaning and applying the HAM10000 skin images dataset underscored the need for meticulous data preprocessing to ensure AI model accuracy, reliability, and equality.
 
 How to Integrate many different new technologies such as Convex, Clerk, Flask, Intel Cloud Development, Prediction Guard LLM, and Infobip to create a seamless and secure user experience.
 
 # What's next for DermaDetect
+
 Finding users to foster future development and feedback.
 
 Partnering with healthcare organizations and senior communities for wider adoption.
