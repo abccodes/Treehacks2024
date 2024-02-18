@@ -15,6 +15,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import Loading from "./LoadingScreen";
+import styles from "./Upload.module.css";
 
 interface ContainerProps {
   // Define your component props here
@@ -30,6 +32,7 @@ export const ContainerWithUpload: React.FC<ContainerProps> = () => {
   const [uploadUrl, setUploadUrl] = useState(""); // for getting the URLs
 
   const [isLoading, setIsLoading] = useState(false);
+  const [showLoading, setShowLoading] = useState(false);
   let navigate = useNavigate();
 
   const addJournalEntry = useMutation(api.myFunctions.addJournalEntry);
@@ -51,6 +54,9 @@ export const ContainerWithUpload: React.FC<ContainerProps> = () => {
   };
 
   const saveAfterUpload = async (uploaded: UploadFileResponse[]) => {
+    setIsLoading(true);
+    setTimeout(() => setShowLoading(true), 1500);
+
     // Generate a new upload URL for displaying
     // const newUploadUrl = await generateUploadUrl();
     // setUploadUrl(newUploadUrl);
@@ -68,7 +74,10 @@ export const ContainerWithUpload: React.FC<ContainerProps> = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        setIsLoading(false);
+        setTimeout(() => {
+          setIsLoading(false);
+          setShowLoading(false);
+        }, 5000);
         navigate("/result", { state: { data } });
       })
       .catch((error) => console.error("Error fetching data:", error));
@@ -86,30 +95,38 @@ export const ContainerWithUpload: React.FC<ContainerProps> = () => {
                 fontSize: "2em",
                 fontFamily: "Arial",
                 textAlign: "center",
+                animation: showLoading
+                  ? `${styles.fadeInOut} 2s infinite`
+                  : "none",
               }}
             >
-              Upload Your Image Below!
+              {showLoading
+                ? "Analyzing Your Image with AI! Please Wait..."
+                : "Upload Your Image Below! Our AI model takes care of the rest!"}
             </h1>
           </CardTitle>
-          {isLoading ? <h1>Loading...</h1> : <></>}
-          <UploadDropzone
-            // Generate and set upload URL when button is used
-            uploadUrl={() =>
-              generateUploadUrl().then((url) => {
-                setUploadUrl(url);
-                return url;
-              })
-            }
-            fileTypes={{
-              "application/pdf": [".pdf"],
-              "image/*": [".png", ".gif", ".jpeg", ".jpg"],
-            }}
-            onUploadComplete={saveAfterUpload}
-            onUploadError={(error: unknown) => {
-              // Do something with the error.
-              alert(`ERROR! ${error}`);
-            }}
-          />
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <UploadDropzone
+              // Generate and set upload URL when button is used
+              uploadUrl={() =>
+                generateUploadUrl().then((url) => {
+                  setUploadUrl(url);
+                  return url;
+                })
+              }
+              fileTypes={{
+                "application/pdf": [".pdf"],
+                "image/*": [".png", ".gif", ".jpeg", ".jpg"],
+              }}
+              onUploadComplete={saveAfterUpload}
+              onUploadError={(error: unknown) => {
+                // Do something with the error.
+                alert(`ERROR! ${error}`);
+              }}
+            />
+          )}
         </CardHeader>
         <CardContent></CardContent>
         <CardFooter className="flex justify-between">
