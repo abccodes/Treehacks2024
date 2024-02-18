@@ -1,3 +1,4 @@
+import React, { useState } from 'react'; // changed this line
 import { Button } from "@/components/ui/button";
 import { SignInButton, UserButton } from "@clerk/clerk-react";
 import {
@@ -13,11 +14,18 @@ import { api } from "../convex/_generated/api";
 import ShuffleHero from "./Shufflehero.jsx";
 
 export default function App() {
+  const [uploadUrl, setUploadUrl] = useState(''); // changed this line
+
   console.log(useConvexAuth());
 
   const generateUploadUrl = useMutation(api.files.generateUploadUrl);
   const saveStorageId = useMutation(api.files.saveStorageId);
+  
   const saveAfterUpload = async (uploaded: UploadFileResponse[]) => {
+    // Generate a new upload URL for displaying
+    const newUploadUrl = await generateUploadUrl();
+    setUploadUrl(newUploadUrl); // changed this line
+
     await saveStorageId({
       uploaded: { storageId: (uploaded[0].response as any).storageId },
     });
@@ -29,8 +37,11 @@ export default function App() {
         <UserButton afterSignOutUrl="#" />
 
         <SignedIn />
+        {uploadUrl && ( // changed this line
+          <p>Upload URL: <a href={uploadUrl}>{uploadUrl}</a></p>
+        )}
         <UploadButton
-          uploadUrl={generateUploadUrl}
+          uploadUrl={() => generateUploadUrl().then(url => { setUploadUrl(url); return url; })} // Generate and set upload URL when button is used
           fileTypes={[".pdf", "image/*"]}
           onUploadComplete={saveAfterUpload}
           onUploadError={(error: unknown) => {
