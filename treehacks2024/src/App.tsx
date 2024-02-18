@@ -3,6 +3,7 @@ import { SignInButton, UserButton } from "@clerk/clerk-react";
 import {
   Authenticated,
   Unauthenticated,
+  useConvexAuth,
   useMutation,
   useQuery,
 } from "convex/react";
@@ -10,23 +11,26 @@ import { UploadButton, UploadFileResponse } from "@xixixao/uploadstuff/react";
 import "@xixixao/uploadstuff/react/styles.css";
 import { api } from "../convex/_generated/api";
 import Test from "./components/test";
+import ShuffleHero from "./Shufflehero.jsx";
 
 export default function App() {
+  console.log(useConvexAuth());
+
   const generateUploadUrl = useMutation(api.files.generateUploadUrl);
   const saveStorageId = useMutation(api.files.saveStorageId);
   const saveAfterUpload = async (uploaded: UploadFileResponse[]) => {
     await saveStorageId({
       uploaded: { storageId: (uploaded[0].response as any).storageId },
     });
+    console.log(generateUploadUrl(), generateUploadUrl());
   };
 
   return (
     <main className="container max-w-2xl flex flex-col gap-8">
-      <h1 className="text-4xl font-extrabold my-8 text-center">
-        Welcome to skin.ai
-      </h1>
       <Test></Test>
       <Authenticated>
+        <UserButton afterSignOutUrl="#" />
+
         <SignedIn />
         <UploadButton
           uploadUrl={generateUploadUrl}
@@ -39,6 +43,7 @@ export default function App() {
         />
       </Authenticated>
       <Unauthenticated>
+        <ShuffleHero />
         <div className="flex justify-center">
           <SignInButton mode="modal">
             <Button>Sign in</Button>
@@ -50,15 +55,8 @@ export default function App() {
 }
 
 function SignedIn() {
-  const { numbers, viewer } =
-    useQuery(api.myFunctions.listNumbers, {
-      count: 10,
-    }) ?? {};
-  const addNumber = useMutation(api.myFunctions.addPatient);
-
   return (
     <>
-      <p>Welcome {viewer}!</p>
       <p className="flex gap-4 items-center">
         This is you:
         <UserButton afterSignOutUrl="#" />
@@ -66,21 +64,6 @@ function SignedIn() {
       <p>
         Click the button below and open this page in another window - this data
         is persisted in the Convex cloud database!
-      </p>
-      <p>
-        <Button
-          onClick={() => {
-            void addNumber({ value: Math.floor(Math.random() * 10) });
-          }}
-        >
-          Add a random number
-        </Button>
-      </p>
-      <p>
-        Numbers:{" "}
-        {numbers?.length === 0
-          ? "Click the button!"
-          : numbers?.join(", ") ?? "..."}
       </p>
       <p>
         Edit{" "}
