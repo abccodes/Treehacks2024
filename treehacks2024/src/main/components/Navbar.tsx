@@ -6,7 +6,7 @@ interface NavbarProps {
   // Define any props you need for your navbar component
 }
 
-const Navbar: React.FC<NavbarProps> = (props) => {
+const Navbar: React.FC<NavbarProps> = () => {
   const User = () => {
     const { isSignedIn, user, isLoaded } = useUser();
     if (!isLoaded) {
