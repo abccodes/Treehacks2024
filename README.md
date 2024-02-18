@@ -62,14 +62,16 @@ exit
 ============================================================================
 
 
-Inspiration
+#Inspiration
+
 DermaDetect was born out of a commitment to improve healthcare equity for underrepresented and economically disadvantaged communities, including seniors, other marginalized populations, and those impacted by economic inequality.
 
 Recognizing the prohibitive costs and emotional toll of traditional skin cancer screenings, which often result in benign outcomes, we developed an open-source AI-powered application to provide preliminary skin assessments.
 
 This innovation aims to reduce financial burdens and emotional stress, offering immediate access to health information and making early detection services more accessible to everyone, regardless of their societal status.
 
-What it does
+#What it does
+
 AI-powered analysis: Fine-tuned Resnet50 Convolutional Neural Network classifier that predicts skin lesions as benign versus cancerous by leveraging the open-source HAM10000 dataset.
 
 Protecting patient data confidentiality: Our application uses OAuth technology (Clerk and Convex) to authenticate and verify users logging into our application, protecting patient data when users upload images and enter protected health information (PHI).
@@ -80,19 +82,20 @@ Journal entry logging: Using the Convex backend database schema allows users to 
 
 Seamless triaging: Direct connection to qualified healthcare providers eliminates unnecessary user anxiety and wait times for concerning cases.
 
-How we built it
+#How we built it
+
 Machine learning model TensorFlow, Keras: Facilitated our model training and model architecture, Python, OpenCV, Prediction Guard LLM, Intel Developer Cloud, Pandas, NumPy, Sklearn, Matplotlib
 
 Frontend TypeScript, Convex, React.js, Shadcn (Components), FramerMotion (Animated components), TailwindCSS
 
 Backend TypeScript, Convex Database & File storage, Clerk (OAuth User login authentication), Python, Flask, Vite, InfoBip (Twillio-like service)
 
-Challenges we ran into
+#Challenges we ran into
 We had a lot of trouble cleaning and applying the HAM10000 skin images dataset. Due to long run times, we found it very challenging to make any progress on tuning our model and sorting the data. We eventually started splitting our dataset into smaller batches and training our model on a small amount of data before scaling up which worked around our problem. We also had a lot of trouble normalizing our data, and figuring out how to deal with a large Melanocytic nevi class imbalance. After much trial and error, we were able to correctly apply data augmentation and oversampling methods to address the class imbalance issue.
 
 One of our biggest challenges was setting up our backend Flask server. We encountered so many environment errors, and for a large portion of the time, the server was only able to run on one computer. After many Google searches, we persevered and resolved the errors.
 
-Accomplishments that we're proud of
+#Accomplishments that we're proud of
 We are incredibly proud of developing a working open-source, AI-powered application that democratizes access to skin cancer assessments.
 
 Tackling the technical challenges of cleaning and applying the HAM10000 skin images dataset, dealing with class imbalances, and normalizing data has been a journey of persistence and innovation.
@@ -103,12 +106,12 @@ Integrating many technologies that were new to a lot of the team such as Clerk f
 
 Extending beyond the technical domain, reflecting a deep dedication to inclusivity, education, and empowerment in healthcare.
 
-What we learned
+#What we learned
 Critical importance of data quality and management in AI-driven applications. The challenges we faced in cleaning and applying the HAM10000 skin images dataset underscored the need for meticulous data preprocessing to ensure AI model accuracy, reliability, and equality.
 
 How to Integrate many different new technologies such as Convex, Clerk, Flask, Intel Cloud Development, Prediction Guard LLM, and Infobip to create a seamless and secure user experience.
 
-What's next for DermaDetect
+#What's next for DermaDetect
 Finding users to foster future development and feedback.
 
 Partnering with healthcare organizations and senior communities for wider adoption.
