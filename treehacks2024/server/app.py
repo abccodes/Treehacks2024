@@ -8,11 +8,14 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.utils import to_categorical
 from keras.preprocessing.image import img_to_array
 import numpy as np
+import predictionguard as pg
+import os
 
 
 app = Flask(__name__)
 CORS(app)
-model = load_model('server/models/skin.h5')
+os.environ['PREDICTIONGUARD_TOKEN'] = "q1VuOjnffJ3NO2oFN8Q9m8vghYc84ld13jaqdF7E"
+model = load_model('server/models/skin_v2.h5')
 
 lesion_type_dict = {
     'nv': 'Melanocytic nevi',
@@ -29,7 +32,7 @@ lesion_ID = [
     'mel',
     'bkl',
     'bcc',
-    'akiec'
+    'akiec',
     'vasc',
     'df'
 ]
@@ -37,9 +40,10 @@ lesion_ID = [
 @app.route('/api/predict', methods=['POST'])
 def predict():
     data = request.get_json()
-    # image_url = "https://i.ibb.co/wdLSW6G/ISIC-0024533.jpg"
+    # image_url = "https://i.ibb.co/wdLSW6G/ISIC-0024533.jpg" # nv
     # image_url = "https://i.ibb.co/b2ByTMv/ISIC-0025030.jpg" # bkl
     # image_url = "https://i.ibb.co/b1wVkWn/ISIC-0030932.jpg" # mel
+    # https://i.ibb.co/QjgXcLb/ISIC-0033254.jpg # vasc
     image_url = data.get('url')
     print(image_url)
 
@@ -49,9 +53,30 @@ def predict():
     predicted_label = lesion_type_dict[lesion_ID[predicted_class]]
     print(prediction, predicted_class)
 
-    return jsonify({'predicted_label': predicted_label})
+    prompt = """### System:
+    You are a profession Dermatologist who has been in the industry for 40 years.
+    You will receive a input of a skin disease name of a patient.
+    State it if the disease is cancerous or not. If it's cancerous, show your care and concern to the user and ask them to ask for a doctor's advise as soon as possible.
+    Explain what that is to a patient, in very simple term, so people that without a biology background can still understand.
+    Don't mention the user has no biology background.
+    Tell them it's still important to get advise from a professional Doctor.
+    No number list or bullet points, 3 complete sentenses only.
 
-def download_and_preprocess_image(image_url, image_size=(100, 100)):
+    ### User:
+    I was using a skin disease classifier, and it says I may have {disease}. Explain it within 3 complete sentenses only.
+
+    ### Respond:
+    """.format(disease=predicted_label)
+
+    prompt_response = pg.Completion.create(
+        model="Neural-Chat-7B",
+        prompt=prompt
+    )['choices'][0]['text']
+
+
+    return jsonify({'predicted_label': predicted_label, 'prompt_response': prompt_response})
+
+def download_and_preprocess_image(image_url, image_size=(224, 224)):
     response = requests.get(image_url)
     img = cv2.imdecode(np.frombuffer(response.content, np.uint8), -1)
     if img is not None:

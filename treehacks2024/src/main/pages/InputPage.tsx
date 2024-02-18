@@ -1,14 +1,5 @@
 import React from "react";
-import Container from "../components/Upload.tsx";
-import { UploadButton, UploadFileResponse } from "@xixixao/uploadstuff/react";
-import {
-  //   Authenticated,
-  //   Unauthenticated,
-  //   useConvexAuth,
-  useMutation,
-  //   useQuery,
-} from "convex/react";
-import { api } from "../../../convex/_generated/api";
+import ContainerWithUpload from "../components/Upload.tsx";
 import "@xixixao/uploadstuff/react/styles.css";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -21,28 +12,11 @@ import {
 import Autoplay from "embla-carousel-autoplay";
 
 const InputPage: React.FC = () => {
-  const generateUploadUrl = useMutation(api.files.generateUploadUrl);
-  const saveStorageId = useMutation(api.files.saveStorageId);
-  const saveAfterUpload = async (uploaded: UploadFileResponse[]) => {
-    await saveStorageId({
-      uploaded: { storageId: (uploaded[0].response as any).storageId },
-    });
-  };
-
   return (
     <div>
       <div className="flex justify-center m-10">
         <div className="flex-column">
-          <Container />
-          <UploadButton
-            uploadUrl={generateUploadUrl}
-            fileTypes={[".pdf", "image/*"]}
-            onUploadComplete={saveAfterUpload}
-            onUploadError={(error: unknown) => {
-              // Do something with the error.
-              alert(`ERROR! ${error}`);
-            }}
-          />{" "}
+          <ContainerWithUpload />
         </div>
       </div>
       <div className="flex justify-center ">
