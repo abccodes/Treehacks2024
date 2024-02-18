@@ -4,6 +4,7 @@ import Navbar from "./main/components/Navbar.tsx";
 import InputPage from "./main/pages/InputPage.tsx";
 
 export default function App() {
+
   console.log(useConvexAuth());
 
   return (

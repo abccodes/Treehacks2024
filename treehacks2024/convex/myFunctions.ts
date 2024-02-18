@@ -78,6 +78,19 @@ export const addJournalEntry = mutation({
   },
 });
 
+export const getFileURL = query({
+  args: {},
+  handler: async (ctx) => {
+    const files = await ctx.db.query("Photos").collect();
+    return Promise.all(
+      files.map(async (files) => ({
+        ...files,
+        ...ctx.storage.getUrl(files.storageId),
+      }))
+    );
+  },
+});
+
 /*
 COMMENTED OUT BECAUSE WE DO NOT SEND DATA TO THIRD PARTY APIS
 BUT DO NOT DELETE BECAUSE IT IS A GOOD EXAMPLE
