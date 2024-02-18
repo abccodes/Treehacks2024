@@ -44,11 +44,11 @@ const OutputPage: React.FC = () => {
         }`}
       />
 
-      <Button
+      {/* <Button
         onClick={() => setIsHealthy(!isHealthy)} // Example toggle functionality for demonstration
       >
         Toggle Health Status
-      </Button>
+      </Button> */}
     </div>
   );
 };

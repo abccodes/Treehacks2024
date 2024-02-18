@@ -98,7 +98,7 @@ def predict():
     if not is_healthy:
         sms_prompt = """### System:
         You are a SMS agent.
-        Write an SMS message to inform a physician whose patient got identified a skin symptom with potential cancerous characteristics on our app Skin.ai.
+        Write an SMS message to inform a physician whose patient got identified a skin symptom with potential cancerous characteristics on our app DermaDetect.
         You will receive a input about the skin disease name of the patient. Share that information to the physician
         Keep the message clean and concise. No number list or bullet points, 3 complete sentenses only.
         Start with this and complete the paragraph: Hi, your patient {name} might have...
