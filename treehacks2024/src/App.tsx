@@ -5,6 +5,8 @@ import ShuffleHero from "./Shufflehero.jsx";
 import Navbar from "./main/components/Navbar.tsx";
 import InputPage from "./main/pages/InputPage.tsx";
 import OutputPage from "./main/pages/OutputPage.tsx";
+import { Toaster } from "@/components/ui/toaster"
+
 
 export default function App() {
   console.log(useConvexAuth());
@@ -15,6 +17,7 @@ export default function App() {
       <Navbar />
       <Authenticated>
         <OutputPage />
+        <Toaster />
         {/* <InputPage /> */}
       </Authenticated>
       <Unauthenticated>

@@ -30,7 +30,7 @@ const DescriptionCard: React.FC<DescriptionCardProps> = ({
     <div className="flex justify-center mt-5">
       <Card className="w-1/2">
         <CardHeader>
-          <CardTitle className="flex justify-center">Daignosis</CardTitle>
+          <CardTitle className="flex justify-center">Diagnosis</CardTitle>
           <CardDescription className="flex justify-center">
             {result}
           </CardDescription>
