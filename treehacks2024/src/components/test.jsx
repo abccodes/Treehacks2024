@@ -39,14 +39,14 @@ const Test = () => {
           Submit
         </button>
       </div>
-      {data ? (
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : data ? (
         <>
           <img src={url}></img>
           <p>Predicted Result: {data.predicted_label}</p>
           <p>{data.prompt_response}</p>
         </>
-      ) : isLoading ? (
-        <p>Loading...</p>
       ) : (
         <></>
       )}

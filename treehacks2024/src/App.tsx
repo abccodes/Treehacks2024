@@ -22,7 +22,6 @@ export default function App() {
     await saveStorageId({
       uploaded: { storageId: (uploaded[0].response as any).storageId },
     });
-    console.log(generateUploadUrl(), generateUploadUrl());
   };
 
   return (
