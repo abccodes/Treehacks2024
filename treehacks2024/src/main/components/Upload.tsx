@@ -1,3 +1,4 @@
+import { Id } from "../../../convex/_generated/dataModel";
 import { useMutation } from "convex/react";
 import { UploadDropzone, UploadFileResponse } from "@xixixao/uploadstuff/react";
 import "@xixixao/uploadstuff/react/styles.css";
@@ -12,9 +13,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useMutation } from "convex/react";
-import { api } from "../../../convex/_generated/api";
-
 interface ContainerProps {
   // Define your component props here
 }
@@ -23,10 +21,10 @@ export const ContainerWithUpload: React.FC<ContainerProps> = () => {
   // Implement your component logic here
   const addJournalEntry = useMutation(api.myFunctions.addJournalEntry);
 
-  // const [dateLogged, setDateLogged] = React.useState({ Date: "" });
-  // const [notes, setNotes] = React.useState("");
-  // const [patientID, setPatientID] = React.useState("");
-  // const [storageID, setStorageID] = React.useState("");
+  const [dateLogged, setDateLogged] = React.useState({ Date: "" });
+  const [notes, setNotes] = React.useState("");
+  const [patientID, setPatientID] = React.useState<Id<"Patients"> | null>(null);
+const [storageID, setStorageID] = React.useState<Id<"_storage"> | null>(null);
 
   // // @dev
   // // ConditionID: v.id("Conditions"),
@@ -34,18 +32,24 @@ export const ContainerWithUpload: React.FC<ContainerProps> = () => {
   // // Notes: v.string(),
   // // PatientID: v.id("Patients"),
 
-  // async function handleUpload() {
-  //   try {
-  //     await addJournalEntry({
-  //       DateLogged: dateLogged,
-  //       Notes: notes,
-  //       PatientID: patientID, // Ensure patientID is of type Id<"Patients">
-  //       StorageID: storageID, // Also treated as a string
-  //     });
-  //   } catch (e) {
-  //     console.error(e);
-  //   }
-  // }
+  async function handleUpload() {
+
+    if (!patientID || !storageID) {
+      console.error("PatientID or storageID is null");
+      return;
+    }
+    
+    try {
+      await addJournalEntry({
+        DateLogged: dateLogged,
+        Notes: notes,
+        PatientID: patientID,
+        storageId: storageID,
+      });
+    } catch (e) {
+      console.error(e);
+    }
+  }
 
   const [uploadUrl, setUploadUrl] = useState(""); // for getting the URLs
 
