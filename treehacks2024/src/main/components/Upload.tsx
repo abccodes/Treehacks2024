@@ -16,7 +16,7 @@ const Container: React.FC<ContainerProps> = () => {
   // Implement your component logic here
 
   return (
-    <div className="">
+    <div>
       <Card className="w-[350px]">
         <CardHeader>
           <CardTitle></CardTitle>
