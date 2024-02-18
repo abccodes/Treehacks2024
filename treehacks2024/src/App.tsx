@@ -11,6 +11,10 @@ import { UploadButton, UploadFileResponse } from "@xixixao/uploadstuff/react";
 import "@xixixao/uploadstuff/react/styles.css";
 import { api } from "../convex/_generated/api";
 import ShuffleHero from "./Shufflehero.jsx";
+import Container from "./main/Containter.tsx";
+import Navbar from "./main/Navbar.tsx";
+
+
 
 export default function App() {
   console.log(useConvexAuth());
@@ -24,10 +28,8 @@ export default function App() {
   };
 
   return (
-    <main className="container max-w-2xl flex flex-col gap-8">
+    <main>
       <Authenticated>
-        <UserButton afterSignOutUrl="#" />
-
         <SignedIn />
         <UploadButton
           uploadUrl={generateUploadUrl}
@@ -54,11 +56,14 @@ export default function App() {
 function SignedIn() {
   return (
     <>
+      <Navbar />
+      <Container></Container>
       <p className="flex gap-4 items-center">
         This is you:
         <UserButton afterSignOutUrl="#" />
       </p>
-      <p>
+
+      {/* <p>
         Click the button below and open this page in another window - this data
         is persisted in the Convex cloud database!
       </p>
@@ -86,7 +91,7 @@ function SignedIn() {
         >
           Convex docs
         </a>
-      </p>
+      </p> */}
     </>
   );
 }
