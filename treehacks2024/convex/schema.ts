@@ -7,21 +7,19 @@ export default defineSchema({
     Name: v.string(),
   }),
   Entries: defineTable({
-    ConditionID: v.id("Conditions"),
-    DateLogged: v.object({Date : v.string()}),
+    // ConditionID: v.id("Conditions"),
+    DateLogged: v.optional(v.object({ Date: v.string() })),
+    Notes: v.optional(v.string()),
+    PatientID: v.optional(v.id("Patients")),
+    storageId: v.id("_storage"),
+    DateLogged: v.object({ Date: v.string() }),
     Notes: v.string(),
     PatientID: v.id("Patients"),
   }),
   Patients: defineTable({
-    Birthday: v.object({Date : v.string()}),
+    Birthday: v.object({ Date: v.string() }),
     FirstName: v.string(),
     LastName: v.string(),
-    PhysicianPhoneNumber: v.string(),
-  }),
-  Photos: defineTable({
-    Description: v.optional(v.string()),
-    EntryID: v.optional(v.id("Entries")),
-    PhotoDate: v.optional(v.object({Date : v.string()})),
-    storageId: v.id("_storage")
+    // PhysicianPhoneNumber: v.string(),
   }),
 });
