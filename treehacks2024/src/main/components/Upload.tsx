@@ -3,6 +3,7 @@ import { useMutation } from "convex/react";
 import { UploadDropzone, UploadFileResponse } from "@xixixao/uploadstuff/react";
 import "@xixixao/uploadstuff/react/styles.css";
 import { api } from "../../../convex/_generated/api";
+import { useNavigate } from "react-router-dom";
 
 import React, { useState } from "react";
 import {
@@ -24,7 +25,8 @@ export const ContainerWithUpload: React.FC<ContainerProps> = () => {
   const [dateLogged, setDateLogged] = React.useState({ Date: "" });
   const [notes, setNotes] = React.useState("");
   const [patientID, setPatientID] = React.useState<Id<"Patients"> | null>(null);
-const [storageID, setStorageID] = React.useState<Id<"_storage"> | null>(null);
+  const [storageID, setStorageID] = React.useState<Id<"_storage"> | null>(null);
+  let navigate = useNavigate();
 
   // // @dev
   // // ConditionID: v.id("Conditions"),
@@ -33,12 +35,11 @@ const [storageID, setStorageID] = React.useState<Id<"_storage"> | null>(null);
   // // PatientID: v.id("Patients"),
 
   async function handleUpload() {
-
     if (!patientID || !storageID) {
       console.error("PatientID or storageID is null");
       return;
     }
-    
+
     try {
       await addJournalEntry({
         DateLogged: dateLogged,
@@ -63,6 +64,7 @@ const [storageID, setStorageID] = React.useState<Id<"_storage"> | null>(null);
     await saveStorageId({
       uploaded: { storageId: (uploaded[0].response as any).storageId },
     });
+    navigate("/result", { state: { bla: "aad" } });
   };
 
   return (
