@@ -82,7 +82,7 @@ export const addJournalEntry = mutation({
 export const getFileURL = query({
   args: {},
   handler: async (ctx) => {
-    const files = await ctx.db.query("Photos").collect();
+    const files = await ctx.db.query("Entries").collect();
     return Promise.all(
       files.map(async (files) => ({
         ...files,
